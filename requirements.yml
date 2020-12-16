@@ -1,0 +1,5 @@
+name: acrv-datasets
+channels:
+  - defaults
+dependencies:
+  - tqdm
