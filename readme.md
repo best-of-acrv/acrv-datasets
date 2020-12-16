@@ -27,29 +27,9 @@ Activate this Conda environment using the following command:
 $ conda activate acrv-datasets
 ```
 
-### Install COCO API ### 
-Optional: clone and install the official COCO API Git Repository (if using the COCO dataset):
-```
-$ git clone https://github.com/cocodataset/cocoapi
-$ cd cocoapi/PythonAPI
-$ make
-$ python setup.py install
-```
-
 ## Downloading Data ##
-To download data, run the ``get_datasets.py``
-
-
-## Datasets ##
-We provide scripts to automatically download and set up all required datasets. You can download all datasets using the ```download_datasets.sh``` file. 
-To download all relevant datasets, run the following:
-```
-$ cd data
-$ sh download_datasets.sh
-```
-
-This will download and setup all the corresponding data directories required for the models. The data directory should
-appear in the following structure:
+To download and prepare dataset, run the ``get_datasets.py``. This will download and setup all the corresponding data 
+directories required for the models. The data directory should appear in the following structure:
 ```
 root_dir
 |--- datasets
@@ -58,7 +38,6 @@ root_dir
 |   |--  pascal_voc
 |   |--  sbd
 ```
-
 To select datasets to download, use the ``--datasets`` argument. The supported datasets so far are:
 * [NYUv2](https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html)
 * [Pascal VOC](http://host.robots.ox.ac.uk/pascal/VOC/)
@@ -67,5 +46,5 @@ To select datasets to download, use the ``--datasets`` argument. The supported d
 
 For example, to download the NYU and VOC datasets,  run the following command from the root directory:
 ```
-$ python3 get_datasets.py --datasets nyu voc
+$ python get_datasets.py --datasets nyu voc
 ```
