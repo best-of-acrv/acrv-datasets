@@ -52,12 +52,20 @@ This will download and setup all the corresponding data directories required for
 appear in the following structure:
 ```
 root_dir
-├── datasets
-│   ├── coco
-│   ├── nyu
-│   ├── pascal_voc
-│   └── sbd
+|--- datasets
+|   |-- coco
+|   |--  nyu
+|   |--  pascal_voc
+|   |--  sbd
 ```
 
-## Adding New Datasets ##
-To 
+To select datasets to download, use the ``--datasets`` argument. The supported datasets so far are:
+* [NYUv2](https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html)
+* [Pascal VOC](http://host.robots.ox.ac.uk/pascal/VOC/)
+* [SBD](http://home.bharathh.info/pubs/codes/SBD/download.html)
+* [COCO](https://cocodataset.org/)
+
+For example, to download the NYU and VOC datasets,  run the following command from the root directory:
+```
+$ python3 get_datasets.py --datasets nyu voc
+```
