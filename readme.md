@@ -48,3 +48,7 @@ For example, to download the NYU and VOC datasets,  run the following command fr
 ```
 $ python get_datasets.py --datasets nyu voc
 ```
+
+## Adding Datasets ##
+To add your own datasets, please refer to the ``datasets_url.py``. A new dataset dictionary and ``elif`` should be added 
+according to the provided example.
