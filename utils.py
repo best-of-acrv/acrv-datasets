@@ -1,6 +1,5 @@
 import os
 import downloader
-import re
 import tarfile
 import zipfile
 from dataset_urls import *
@@ -35,10 +34,9 @@ def download_dataset(dataset, data_directory):
 
 def prepare_dataset(dataset, data_directory):
     dataset = dataset.lower()
-    upper_folder = re.sub(r'\d+', '', dataset)
 
     # full data directory
-    data_location = os.path.join(data_directory, upper_folder)
+    data_location = os.path.join(data_directory, dataset)
 
     # list all archived files
     for file in os.listdir(data_location):
@@ -56,6 +54,4 @@ def prepare_dataset(dataset, data_directory):
                 print('Extracting to: ' + data_location)
                 f.extractall(data_location)
 
-        # remove archived files
-        if os.path.isfile(filepath):
-            os.remove(filepath)
+

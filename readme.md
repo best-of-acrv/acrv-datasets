@@ -34,17 +34,20 @@ directories required for the models. The data directory should appear in the fol
 root_dir
 |--- datasets
 |   |-- coco
-|   |--  nyu
-|   |--  pascal_voc
-|   |--  sbd
+|   |-- glove
+|   |-- nyu
+|   |-- pascal_voc
+|   |-- sbd
+|   |-- trainval36
 ```
 To select datasets to download, use the ``--datasets`` argument. The supported datasets so far are:
 * [NYUv2](https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html)
 * [Pascal VOC](http://host.robots.ox.ac.uk/pascal/VOC/)
 * [SBD](http://home.bharathh.info/pubs/codes/SBD/download.html)
 * [COCO](https://cocodataset.org/)
+* [GloVe](https://nlp.stanford.edu/projects/glove/)
 
-For example, to download the NYU and VOC datasets,  run the following command from the root directory:
+For example, to download the NYU and VOC datasets, run the following command from the root directory:
 ```
 $ python get_datasets.py --datasets nyu voc
 ```
