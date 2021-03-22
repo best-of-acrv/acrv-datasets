@@ -1,0 +1,39 @@
+# This file contains all supported datasets, with URLs from their original
+# sources. We do not claim ownership of any of these datasets, we simply provide
+# wrapping to make them easily usable with the Best of ACRV software.
+#
+# Please see the README.md for full citations and links to the dataset sources.
+#
+# Datasets are listed in named groups. The group name is the top level key, the
+# unique dataset identifier is the second level key, and the public URL is the
+# second level value. For example, to add the 2021 version of your own dataset
+# called "my_dataset":
+#
+# my_dataset:
+#   my_dataset2021: https://my_dataset.hosting/2021.tgz
+#
+
+nyu:
+  nyu: "https://cloudstor.aarnet.edu.au/plus/s/XkNRzW15f5TCDKr/download"
+yoc:
+  voc: "http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar"
+sbd:
+  sbd: "http://www.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/semantic_contours/benchmark.tgz"
+coco:
+  coco_train2014: "http://images.cocodataset.org/zips/train2014.zip"
+  coco_val2014: "http://images.cocodataset.org/zips/val2014.zip"
+  coco_annotations_trainval2014: "http://images.cocodataset.org/annotations/annotations_trainval2014.zip"
+  coco_test2015: "http://images.cocodataset.org/zips/test2015.zip"
+  coco_train2017: "http://images.cocodataset.org/zips/train2017.zip"
+  coco_val2017: "http://images.cocodataset.org/zips/val2017.zip"
+  coco_annotations_trainval2017: "http://images.cocodataset.org/annotations/annotations_trainval2017.zip"
+  coco_captions: "https://cloudstor.aarnet.edu.au/plus/s/4rQwvU3VuTd5U7d/download"
+  coco_vqa_questions_train: "https://s3.amazonaws.com/cvmlp/vqa/mscoco/vqa/v2_Questions_Train_mscoco.zip"
+  coco_vqa_questions_val: "https://s3.amazonaws.com/cvmlp/vqa/mscoco/vqa/v2_Questions_Val_mscoco.zip"
+  coco_vqa_questions_test: "https://s3.amazonaws.com/cvmlp/vqa/mscoco/vqa/v2_Questions_Test_mscoco.zip"
+  coco_vqa_annotations_train: "https://s3.amazonaws.com/cvmlp/vqa/mscoco/vqa/v2_Annotations_Train_mscoco.zip"
+  coco_vqa_annotations_val: "https://s3.amazonaws.com/cvmlp/vqa/mscoco/vqa/v2_Annotations_Val_mscoco.zip"
+glove:
+  glove: "http://nlp.stanford.edu/data/glove.6B.zip"
+trainval36:
+  trainval36: "https://cloudstor.aarnet.edu.au/plus/s/bE4nMgkvejbbJMl/download"
