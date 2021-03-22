@@ -1,3 +1,5 @@
 .idea
 datasets
 *.pyc
+*.sw*
+*.egg-info/
