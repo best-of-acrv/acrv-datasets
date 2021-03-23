@@ -11,7 +11,7 @@ setup(name='acrv_datasets',
       long_description=long_description,
       long_description_content_type='text/markdown',
       packages=find_packages(),
-      install_requires=['pyyaml'],
+      install_requires=['colorama', 'pyyaml'],
       classifiers=(
           "Programming Language :: Python :: 3",
           "License :: OSI Approved :: BSD License",

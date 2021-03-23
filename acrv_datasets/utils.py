@@ -4,6 +4,11 @@ import tarfile
 import zipfile
 from dataset_urls import *
 
+
+def get_datasets(dataset):
+    pass
+
+
 # downloads specified dataset into specified data directory
 def download_dataset(dataset, data_directory):
     dataset = dataset.lower()
@@ -13,7 +18,7 @@ def download_dataset(dataset, data_directory):
 
     # create downloaders from dataset urls
     downloaders = {}
-    for k,v in dataset_urls.items():
+    for k, v in dataset_urls.items():
         folder_name = k.split('_')[0]
         dataset_directory = os.path.join(data_directory, folder_name)
         if dataset == 'voc' or dataset == 'sbd':
@@ -28,9 +33,11 @@ def download_dataset(dataset, data_directory):
             print('Found existing file at: ' + k + '!')
             d.resume()
         else:
-            print('Could not find existing file at: ' + k + '. Starting new download...')
+            print('Could not find existing file at: ' + k +
+                  '. Starting new download...')
             os.makedirs(os.path.dirname(k), exist_ok=True)
             d.download()
+
 
 def prepare_dataset(dataset, data_directory):
     dataset = dataset.lower()
@@ -53,5 +60,3 @@ def prepare_dataset(dataset, data_directory):
             with tarfile.open(filepath, 'r') as f:
                 print('Extracting to: ' + data_location)
                 f.extractall(data_location)
-
-
