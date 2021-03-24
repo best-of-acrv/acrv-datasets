@@ -10,8 +10,8 @@
 # identifier.
 #
 # For example, the following would specify a 2014 & 2021 version of my dataset
-# called 'my_dataset' (with the unique identifiers 'my_dataset_2014' &
-# 'my_dataset_2021' respectively):
+# called 'my_dataset' (with the unique identifiers 'my_dataset/2014' &
+# 'my_dataset/2021' respectively):
 #
 # my_dataset:
 #   2014: https://my_dataset.hosting/2014.tgz

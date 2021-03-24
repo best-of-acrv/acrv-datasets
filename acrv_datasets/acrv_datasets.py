@@ -13,6 +13,19 @@ DATASETS = yaml.safe_load(open(DATASETS_FILE, 'r'))
 DEFAULT_SAVE_DIRECTORY = os.path.expanduser('~/.acrv_datasets')
 
 
+def dataset_identifier(group, name=None):
+    return group if name is None else '%s/%s' % (group, name)
+
+
+def dataset_identifiers(groups=None):
+    ids = {}
+    for k, v in DATASETS.items():
+        ids[dataset_identifier(k)] = v
+        if type(v) is dict:
+            ids.update({dataset_identifier(k, kk): vv for kk, vv in v.items()})
+    return ids
+
+
 def get_datasets(datasets, datasets_directory):
     # Perform argument validation
     colorama.init()
@@ -45,25 +58,29 @@ def get_datasets(datasets, datasets_directory):
     return True
 
 
+def get_url(dataset_identifier):
+    pass
+
+
 def supported_datasets():
-    print('The following dataset names are supported:\n\t%s\n' %
-          '\n\t'.join(DATASETS.keys()))
+    print('The following dataset identifiers are supported:\n\t%s\n' %
+          '\n\t'.join(dataset_identifiers()))
     print('New datasets can be added to the YAML definition file:\n\t%s' %
           DATASETS_FILE)
 
 
-# Exit tidily
 def _exit():
+    # Exit tidily
     colorama.deinit()
     return False
 
 
-# downloads specified dataset into specified data directory
 def _download_dataset(dataset, data_directory):
+    # Downloads dataset into a specified data directory
     dataset = dataset.lower()
 
-    # get corresponding dataset urls
-    dataset_urls = get_urls(dataset)
+    # Get dataset urls (and handle simplified syntax)
+    get_urls(dataset)
 
     # create downloaders from dataset urls
     downloaders = {}
