@@ -23,13 +23,9 @@ if __name__ == "__main__":
 
     # Handle special cases
     if args.supported_datasets:
-        print('The following dataset names are supported:\n\t%s\n' %
-              '\n\t'.join(ad.DATASETS.keys()))
-        print('New datasets can be added to the YAML definition file:\n\t%s' %
-              ad.DATASETS_FILE)
+        ad.supported_datasets()
         sys.exit()
-    if not args.datasets_directory:
-        print('NO SAVE')
 
     # Defer the call to the 'get_datasets' function
-    # ad.get_datasets()
+    ad.get_datasets('' if args.datasets is None else args.datasets.split(','),
+                    args.datasets_directory)

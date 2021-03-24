@@ -1,16 +1,58 @@
+import colorama
 import os
-import downloader
 import tarfile
+import yaml
 import zipfile
-from dataset_urls import *
+
+from .downloader import Download
+
+DATASETS_FILE = os.path.join(os.path.dirname(__file__), 'datasets.yaml')
+DATASETS = yaml.safe_load(open(DATASETS_FILE, 'r'))
+
+DEFAULT_SAVE_DIRECTORY = os.path.expanduser('~/.acrv_datasets')
 
 
-def get_datasets(dataset):
-    pass
+def get_datasets(datasets, datasets_directory):
+    # Perform argument validation
+    colorama.init()
+    if not datasets_directory:
+        print('%sWARNING: no output directory provided, downloading '
+              'to the default instead:\n\t%s%s' %
+              (colorama.Fore.YELLOW, DEFAULT_SAVE_DIRECTORY,
+               colorama.Style.RESET_ALL))
+        datasets_directory = DEFAULT_SAVE_DIRECTORY
+
+    if not datasets:
+        print("%sERROR: no datasets provided to download%s" %
+              (colorama.Fore.RED, colorama.Style.RESET_ALL))
+        return _exit()
+    unsupported_datasets = [d for d in datasets if d not in DATASETS.keys]
+    if unsupported_datasets:
+        print("%sERROR: unsupported_datasets were requested "
+              "(see 'supported_datasets()'):\n\t%s%s" %
+              (colorama.Fore.RED, unsupported_datasets,
+               colorama.Style.RESET_ALL))
+        return _exit()
+    colorama.deinit()
+
+    return True
+
+
+def supported_datasets():
+    print('The following dataset names are supported:\n\t%s\n' %
+          '\n\t'.join(ad.DATASETS.keys()))
+    print('New datasets can be added to the YAML definition file:\n\t%s' %
+          ad.DATASETS_FILE)
+
+
+# Exit tidily
+def _exit():
+    colorama.deinit()
+    return False
 
 
 # downloads specified dataset into specified data directory
-def download_dataset(dataset, data_directory):
+def _download_dataset(dataset, data_directory):
     dataset = dataset.lower()
 
     # get corresponding dataset urls
@@ -25,7 +67,7 @@ def download_dataset(dataset, data_directory):
             dest = os.path.join(dataset_directory, k + '.tar')
         else:
             dest = os.path.join(dataset_directory, k + '.zip')
-        downloaders[dest] = downloader.Download(v, dest)
+        downloaders[dest] = Download(v, dest)
 
     # download files
     for k, d in downloaders.items():
@@ -39,7 +81,7 @@ def download_dataset(dataset, data_directory):
             d.download()
 
 
-def prepare_dataset(dataset, data_directory):
+def _prepare_dataset(dataset, data_directory):
     dataset = dataset.lower()
 
     # full data directory
