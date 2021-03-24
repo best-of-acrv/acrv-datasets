@@ -9,11 +9,9 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(
         description='ACRV wrappers for dataset management')
     p.add_argument('--datasets',
-                   nargs=1,
                    help='Comma-separated list of datasets to download '
                    '(see --supported-datasets for valid values)')
     p.add_argument('--datasets-directory',
-                   nargs=1,
                    help='Location where downloaded datasets are stored')
     p.add_argument('--supported-datasets',
                    action='store_true',

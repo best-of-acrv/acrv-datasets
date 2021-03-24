@@ -1,4 +1,5 @@
 import colorama
+import math
 import os
 import tarfile
 import yaml
@@ -26,7 +27,7 @@ def get_datasets(datasets, datasets_directory):
         print("%sERROR: no datasets provided to download%s" %
               (colorama.Fore.RED, colorama.Style.RESET_ALL))
         return _exit()
-    unsupported_datasets = [d for d in datasets if d not in DATASETS.keys]
+    unsupported_datasets = [d for d in datasets if d not in DATASETS.keys()]
     if unsupported_datasets:
         print("%sERROR: unsupported_datasets were requested "
               "(see 'supported_datasets()'):\n\t%s%s" %
@@ -38,17 +39,17 @@ def get_datasets(datasets, datasets_directory):
     # Download and prepare each of the datasets
     for d in datasets:
         _print_block('Downloading %s dataset/s' % d)
-        download_dataset(d, datasets_directory)
+        _download_dataset(d, datasets_directory)
         _print_block('Preparing %s dataset/s' % d)
-        prepare_dataset(d, datasets_directory)
+        _prepare_dataset(d, datasets_directory)
     return True
 
 
 def supported_datasets():
     print('The following dataset names are supported:\n\t%s\n' %
-          '\n\t'.join(ad.DATASETS.keys()))
+          '\n\t'.join(DATASETS.keys()))
     print('New datasets can be added to the YAML definition file:\n\t%s' %
-          ad.DATASETS_FILE)
+          DATASETS_FILE)
 
 
 # Exit tidily
@@ -111,6 +112,8 @@ def _prepare_dataset(dataset, data_directory):
 
 
 def _print_block(text):
+    text = ' %s ' % text
+    pad_length = 0.5 * (80 - len(text))
     print('-' * 80)
-    print('--- %s ---')
+    print('-' * math.floor(pad_length) + text + '-' * math.ceil(pad_length))
     print('-' * 80)
