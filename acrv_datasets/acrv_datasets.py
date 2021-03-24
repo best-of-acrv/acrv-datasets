@@ -35,6 +35,12 @@ def get_datasets(datasets, datasets_directory):
         return _exit()
     colorama.deinit()
 
+    # Download and prepare each of the datasets
+    for d in datasets:
+        _print_block('Downloading %s dataset/s' % d)
+        download_dataset(d, datasets_directory)
+        _print_block('Preparing %s dataset/s' % d)
+        prepare_dataset(d, datasets_directory)
     return True
 
 
@@ -102,3 +108,9 @@ def _prepare_dataset(dataset, data_directory):
             with tarfile.open(filepath, 'r') as f:
                 print('Extracting to: ' + data_location)
                 f.extractall(data_location)
+
+
+def _print_block(text):
+    print('-' * 80)
+    print('--- %s ---')
+    print('-' * 80)
