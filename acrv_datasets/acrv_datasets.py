@@ -1,4 +1,5 @@
 import colorama
+import glob
 import math
 import os
 import tarfile
@@ -114,27 +115,27 @@ def _is_group(dataset_identifier):
     return dataset_identifier.endswith('/') or '/' not in dataset_identifier
 
 
-def _prepare_dataset(dataset, data_directory):
-    dataset = dataset.lower()
+def _prepare_dataset(dataset, datasets_directory):
+    # Create a map of expanded identifiers to destinations
+    datasets = {
+        d: _dataset_path(datasets_directory, d)
+        for d in _expand_identifier(dataset)
+    }
 
-    # full data directory
-    data_location = os.path.join(data_directory, dataset)
+    # Extract the contents of each archive to the target destination
+    for k, v in datasets.items():
+        source = glob.glob('%s.*' % v)
+        if len(source) != 1:
+            raise RuntimeError(
+                "Failed to find a unique matching local source archive for '%s'"
+                "\n(this should never happen). Found the following:\n\t%s" %
+                (k, source))
 
-    # list all archived files
-    for file in os.listdir(data_location):
-        print('Extracting ' + file + '...')
-        filepath = os.path.join(data_location, file)
-        # zip files
-        if file.endswith('.zip'):
-            with zipfile.ZipFile(filepath, 'r') as f:
-                print('Extracting to: ' + data_location)
-                f.extractall(data_location)
-
-        # tarballs
-        elif file.endswith('.tar'):
-            with tarfile.open(filepath, 'r') as f:
-                print('Extracting to: ' + data_location)
-                f.extractall(data_location)
+        ext = os.path.splitext(source[0])[1]
+        with (zipfile.ZipFile if ext == '.zip' else tarfile.open)(source[0],
+                                                                  'r') as f:
+            print('Extracting to: %s' % v)
+            f.extractall(v)
 
 
 def _print_block(text):
