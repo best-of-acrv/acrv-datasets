@@ -1,4 +1,6 @@
 import os
+import re
+import requests
 import urllib.request, urllib.error, urllib.parse
 import ftplib
 import urllib.parse
@@ -8,6 +10,7 @@ from tqdm import tqdm
 from time import time, sleep
 
 name = "file-downloader"
+
 
 class Download:
     """This class is used for downloading files from the internet via http or ftp.
@@ -34,7 +37,6 @@ class Download:
              downloader = fileDownloader.DownloadFile('http://example.com/file.zip')
             downloader.resume()
     """
-
     def __init__(self,
                  url=None,
                  download_path=None,
@@ -66,6 +68,12 @@ class Download:
         if not self.download_path:  # if no filename given pulls filename from the url
             self.download_path = self.get_url_filename()
 
+        # Pull the extension from the remote server, & adjust the download path
+        self.download_path = os.path.splitext(
+            self.download_path)[0] + '.' + re.sub(
+                r'.*\/', '',
+                requests.head(self.url).headers['Content-Type'])
+
     def __download_file(self, url_obj, file_obj, call_back=None):
         # starts the download loop
         if not self.fast_start:
@@ -78,7 +86,10 @@ class Download:
             content_len = f.headers['Content-Length']
 
         # download file with progress bar
-        pbar = tqdm(unit="B", unit_scale=True, unit_divisor=1024, total=int(content_len))
+        pbar = tqdm(unit="B",
+                    unit_scale=True,
+                    unit_divisor=1024,
+                    total=int(content_len))
         # update with current progress
         pbar.update(self.cur)
         while 1:
@@ -128,8 +139,8 @@ class Download:
         # handles ftp authentication
         ftp_handler = urllib.request.FTPHandler()
         ftp_url = self.url.replace('ftp://', '')
-        req = urllib.request.Request(
-            "ftp://%s:%s@%s" % (self.auth[0], self.auth[1], ftp_url))
+        req = urllib.request.Request("ftp://%s:%s@%s" %
+                                     (self.auth[0], self.auth[1], ftp_url))
         req.timeout = self.timeout
         ftp_obj = ftp_handler.ftp_open(req)
         return ftp_obj
@@ -204,8 +215,8 @@ class Download:
         if self.type == 'http':
             if self.auth:
                 self.__auth_http()
-            urllib2_obj = urllib.request.urlopen(
-                self.url, timeout=self.timeout)
+            urllib2_obj = urllib.request.urlopen(self.url,
+                                                 timeout=self.timeout)
             size = urllib2_obj.headers.get('content-length')
             return int(size)
 
@@ -240,16 +251,16 @@ class Download:
             if self.auth:
                 if self.type == 'http':
                     self.__auth_http()
-                    urllib2_obj = urllib.request.urlopen(
-                        self.url, timeout=self.timeout)
+                    urllib2_obj = urllib.request.urlopen(self.url,
+                                                         timeout=self.timeout)
                     self.__download_file(urllib2_obj, f, call_back=call_back)
                 elif self.type == 'ftp':
                     self.url = self.url.replace('ftp://', '')
                     auth_obj = self.__auth_ftp()
                     self.__download_file(auth_obj, f, call_back=call_back)
             else:
-                urllib2_obj = urllib.request.urlopen(
-                    self.url, timeout=self.timeout)
+                urllib2_obj = urllib.request.urlopen(self.url,
+                                                     timeout=self.timeout)
                 self.__download_file(urllib2_obj, f, call_back=call_back)
             return True
 

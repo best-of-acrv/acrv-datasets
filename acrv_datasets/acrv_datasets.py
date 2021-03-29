@@ -8,22 +8,8 @@ import zipfile
 from .downloader import Download
 
 DATASETS_FILE = os.path.join(os.path.dirname(__file__), 'datasets.yaml')
-DATASETS = yaml.safe_load(open(DATASETS_FILE, 'r'))
 
 DEFAULT_SAVE_DIRECTORY = os.path.expanduser('~/.acrv_datasets')
-
-
-def dataset_identifier(group, name=None):
-    return group if name is None else '%s/%s' % (group, name)
-
-
-def dataset_identifiers(groups=None):
-    ids = {}
-    for k, v in DATASETS.items():
-        ids[dataset_identifier(k)] = v
-        if type(v) is dict:
-            ids.update({dataset_identifier(k, kk): vv for kk, vv in v.items()})
-    return ids
 
 
 def get_datasets(datasets, datasets_directory):
@@ -40,7 +26,9 @@ def get_datasets(datasets, datasets_directory):
         print("%sERROR: no datasets provided to download%s" %
               (colorama.Fore.RED, colorama.Style.RESET_ALL))
         return _exit()
-    unsupported_datasets = [d for d in datasets if d not in DATASETS.keys()]
+    unsupported_datasets = [
+        d for d in datasets if d not in _dataset_identifiers()
+    ]
     if unsupported_datasets:
         print("%sERROR: unsupported_datasets were requested "
               "(see 'supported_datasets()'):\n\t%s%s" %
@@ -58,15 +46,54 @@ def get_datasets(datasets, datasets_directory):
     return True
 
 
-def get_url(dataset_identifier):
-    pass
-
-
 def supported_datasets():
     print('The following dataset identifiers are supported:\n\t%s\n' %
-          '\n\t'.join(dataset_identifiers()))
+          '\n\t'.join(_dataset_identifiers()))
     print('New datasets can be added to the YAML definition file:\n\t%s' %
           DATASETS_FILE)
+
+
+def _dataset_group(identifier):
+    return identifier.split('/')[0]
+
+
+def _dataset_identifier(group, name=None):
+    return group if name is None else '%s/%s' % (group, name)
+
+
+def _dataset_identifiers(groups=None):
+    ret = []
+    for k, v in DATASETS.items():
+        if 'group' in v and v['group'] not in ret:
+            ret.append(v['group'])
+        ret.append(k)
+    return ret
+
+
+def _dataset_path(datasets_directory, dataset_identifier):
+    return os.path.join(datasets_directory, dataset_identifier)
+
+
+def _download_dataset(dataset, datasets_directory):
+    # Get dataset urls (and handle simplified syntax)
+    datasets = {d: DATASETS[d] for d in _expand_identifier(dataset)}
+
+    # Create downloaders from dataset urls
+    downloaders = {
+        k: Download(v['url'], _dataset_path(datasets_directory, k))
+        for k, v in datasets.items()
+    }
+
+    # Download files
+    for k, d in downloaders.items():
+        if os.path.exists(d.download_path):
+            print('Found existing file at: ' + d.download_path + '!')
+            d.resume()
+        else:
+            print('Could not find existing file at: ' + k +
+                  '. Starting new download...')
+            os.makedirs(os.path.dirname(d.download_path), exist_ok=True)
+            d.download()
 
 
 def _exit():
@@ -75,34 +102,16 @@ def _exit():
     return False
 
 
-def _download_dataset(dataset, data_directory):
-    # Downloads dataset into a specified data directory
-    dataset = dataset.lower()
+def _expand_identifier(dataset_identifier):
+    return ([dataset_identifier]
+            if dataset_identifier in DATASETS.keys() else [
+                k for k, v in DATASETS.items()
+                if v.get('group', None) == dataset_identifier
+            ])
 
-    # Get dataset urls (and handle simplified syntax)
-    get_urls(dataset)
 
-    # create downloaders from dataset urls
-    downloaders = {}
-    for k, v in dataset_urls.items():
-        folder_name = k.split('_')[0]
-        dataset_directory = os.path.join(data_directory, folder_name)
-        if dataset == 'voc' or dataset == 'sbd':
-            dest = os.path.join(dataset_directory, k + '.tar')
-        else:
-            dest = os.path.join(dataset_directory, k + '.zip')
-        downloaders[dest] = Download(v, dest)
-
-    # download files
-    for k, d in downloaders.items():
-        if os.path.exists(k):
-            print('Found existing file at: ' + k + '!')
-            d.resume()
-        else:
-            print('Could not find existing file at: ' + k +
-                  '. Starting new download...')
-            os.makedirs(os.path.dirname(k), exist_ok=True)
-            d.download()
+def _is_group(dataset_identifier):
+    return dataset_identifier.endswith('/') or '/' not in dataset_identifier
 
 
 def _prepare_dataset(dataset, data_directory):
@@ -134,3 +143,25 @@ def _print_block(text):
     print('-' * 80)
     print('-' * math.floor(pad_length) + text + '-' * math.ceil(pad_length))
     print('-' * 80)
+
+
+def _process_yaml(filename):
+    with open(filename, 'r') as f:
+        data = yaml.safe_load(f)
+
+    ret = {}
+    for k, v in data.items():
+        if type(v) is dict:
+            ret.update({
+                _dataset_identifier(k, kk): {
+                    'url': vv,
+                    'group': k
+                }
+                for kk, vv in v.items()
+            })
+        else:
+            ret[_dataset_identifier(k)] = {'url': v}
+    return ret
+
+
+DATASETS = _process_yaml(DATASETS_FILE)
