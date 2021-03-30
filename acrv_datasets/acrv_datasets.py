@@ -2,27 +2,22 @@ import colorama
 import glob
 import math
 import os
+import pkg_resources
 import tarfile
 import yaml
 import zipfile
 
 from .downloader import Download
 
-DATASETS_FILE = os.path.join(os.path.dirname(__file__), 'datasets.yaml')
+DATASETS_FILE = pkg_resources.resource_filename(__name__, 'datasets.yaml')
 
-DEFAULT_SAVE_DIRECTORY = os.path.expanduser('~/.acrv_datasets')
+DATASETS_DIRECTORY_RESOURCE = '.acrv_datasets_directory'
+DEFAULT_DATASETS_DIRECTORY = os.path.expanduser('~/.acrv_datasets')
 
 
 def get_datasets(datasets, datasets_directory):
     # Perform argument validation
     colorama.init()
-    if not datasets_directory:
-        print('%sWARNING: no output directory provided, downloading '
-              'to the default instead:\n\t%s%s' %
-              (colorama.Fore.YELLOW, DEFAULT_SAVE_DIRECTORY,
-               colorama.Style.RESET_ALL))
-        datasets_directory = DEFAULT_SAVE_DIRECTORY
-
     if not datasets:
         print("%sERROR: no datasets provided to download%s" %
               (colorama.Fore.RED, colorama.Style.RESET_ALL))
@@ -38,6 +33,9 @@ def get_datasets(datasets, datasets_directory):
         return _exit()
     colorama.deinit()
 
+    # Get the datasets directory
+    datasets_directory = get_datasets_directory(datasets_directory)
+
     # Download and prepare each of the datasets
     for d in datasets:
         _print_block('Downloading %s dataset/s' % d)
@@ -45,6 +43,33 @@ def get_datasets(datasets, datasets_directory):
         _print_block('Preparing %s dataset/s' % d)
         _prepare_dataset(d, datasets_directory)
     return True
+
+
+def get_datasets_directory(requested_directory=None):
+    if requested_directory is not None:
+        return requested_directory
+    else:
+        with open(
+                pkg_resources.resource_filename(
+                    __name__, DATASETS_DIRECTORY_RESOURCE)) as f:
+            return f.readline()
+        print("%sWARNING: no output directory provided, and no default set. "
+              "Downloading to the default instead:\n\t%s%s" %
+              (colorama.Fore.YELLOW, DEFAULT_DATASETS_DIRECTORY,
+               colorama.Style.RESET_ALL))
+        return DEFAULT_DATASETS_DIRECTORY
+
+
+def set_datasets_directory(datasets_directory):
+    fn = pkg_resources.resource_filename(__name__, DATASETS_DIRECTORY_RESOURCE)
+    if pkg_resources.resource_exists(__name__, DATASETS_DIRECTORY_RESOURCE):
+        with open(fn, 'r') as f:
+            old = f.readline()
+            print("Existing default datasets directory found:\n\t%s\n"
+                  "which has now been replaced with:\n\t%s" %
+                  (old, datasets_directory))
+    with open(fn, 'w') as f:
+        f.write(datasets_directory)
 
 
 def supported_datasets():

@@ -3,3 +3,5 @@ datasets
 *.pyc
 *.sw*
 *.egg-info/
+
+acrv_datasets/.acrv_datasets_directory

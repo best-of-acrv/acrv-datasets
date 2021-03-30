@@ -12,7 +12,11 @@ if __name__ == "__main__":
                    help='Comma-separated list of dataset identifiers to '
                    'download (see --supported-datasets for valid values)')
     p.add_argument('--datasets-directory',
-                   help='Location where downloaded datasets are stored')
+                   help='Use this directory instead for this operation only.')
+    p.add_argument(
+        '--set-default-datasets-directory',
+        help='Use the following directory by default for all future operations'
+    )
     p.add_argument('--supported-datasets',
                    action='store_true',
                    help="List currently supported datasets and exit "
@@ -22,6 +26,9 @@ if __name__ == "__main__":
     # Handle special cases
     if args.supported_datasets:
         ad.supported_datasets()
+        sys.exit()
+    elif args.set_default_datasets_directory:
+        ad.set_datasets_directory(args.set_default_datasets_directory)
         sys.exit()
 
     # Defer the call to the 'get_datasets' function
