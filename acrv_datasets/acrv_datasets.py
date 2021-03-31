@@ -15,15 +15,15 @@ DATASETS_DIRECTORY_RESOURCE = '.acrv_datasets_directory'
 DEFAULT_DATASETS_DIRECTORY = os.path.expanduser('~/.acrv_datasets')
 
 
-def get_datasets(datasets, datasets_directory=None):
+def get_datasets(dataset_names, datasets_directory=None):
     # Perform argument validation
     colorama.init()
-    if not datasets:
+    if not dataset_names:
         print("%sERROR: no datasets provided to download%s" %
               (colorama.Fore.RED, colorama.Style.RESET_ALL))
         return _exit()
     unsupported_datasets = [
-        d for d in datasets if d not in _dataset_identifiers()
+        d for d in dataset_names if d not in _dataset_identifiers()
     ]
     if unsupported_datasets:
         print("%sERROR: unsupported_datasets were requested "
@@ -37,7 +37,7 @@ def get_datasets(datasets, datasets_directory=None):
     datasets_directory = get_datasets_directory(datasets_directory)
 
     # Download and prepare each of the datasets
-    for d in datasets:
+    for d in dataset_names:
         _print_block('Downloading %s dataset/s' % d)
         results = _download_dataset(d, datasets_directory)
         _print_block('Preparing %s dataset/s' % d)
@@ -45,7 +45,7 @@ def get_datasets(datasets, datasets_directory=None):
                          datasets_directory,
                          skip_map={k: not v
                                    for k, v in results.items()})
-    return True
+    return [_dataset_path(datasets_directory, d) for d in dataset_names]
 
 
 def get_datasets_directory(requested_directory=None):
@@ -81,6 +81,7 @@ def supported_datasets():
           '\n\t'.join(_dataset_identifiers()))
     print('New datasets can be added to the YAML definition file:\n\t%s' %
           DATASETS_FILE)
+    return DATASETS
 
 
 def _dataset_group(identifier):
