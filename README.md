@@ -1,57 +1,104 @@
-# README #
+# ACRV Datasets: dataset integration for Best of ACRV projects
 
-This repository downloads and sets up all the required datasets for the following Best-of-ACRV projects. This project include:
+The ACRV Datasets package is a light wrapper for generically managing datasets. The package allows any dataset to be added, as long as it has a public URL. We emphasise that we do not own the datasets accessed through this package, we simply provide easy access and integration for projects like the [Best of ACRV codebases](https://roboticvision.org/best-of-acrv).
 
-> Lin, Guosheng, et al. 'Refinenet: Multi-path refinement networks for 
-> high-resolution semantic segmentation.' Proceedings of the IEEE conference on 
-> computer vision and pattern recognition. 2017.
+Datasets are defined in a YAML file, and there is full support for grouping sub-datasets together. For example, `'coco'` can be used to refer to 13 different COCO datasets with a single identifier. Once added, datasets can be downloaded and accessed from Python with simple function calls. You can also easily add your own datasets simply by editing the same datasets YAML file.
 
-> Nekrasov, Vladimir, Chunhua Shen, and Ian Reid. "Light-Weight RefineNet for 
-> Real-Time Semantic Segmentation." British Machine Vision Conference, 2018.
+Our code is free to use, and licensed under BSD-3. If you use any datasets in your work, you must appropriately reference _the original dataset authors_! Please see [dataset references](#dataset-references) below.
 
-> Anderson, Peter, et al. "Bottom-up and top-down attention for image captioning and visual question answering." 
-> Proceedings of the IEEE conference on computer vision and pattern recognition. 2018.
+## Installing the ACRV Datasets package
 
-> Tian, Zhi, et al. "Fcos: Fully convolutional one-stage object detection." 
-> Proceedings of the IEEE international conference on computer vision. 2019.
+We offer the following methods for installing the ACRV Datasets package:
 
+1. [Through our Conda and Pip packages](#conda-and-pip): single command installs the package and Python dependences (these are equivalent as there are no system dependencies)
+2. [Directly from source](#from-source): allows easy editing and extension of our code, but you take care of building and all dependencies
 
-## Setup ##
-First, create the corresponding Conda environment according to the specified [project](https://github.com/best-of-acrv):
+### Conda and Pip
+
+The ACRV Datasets package has no system dependencies, so installation is the same for both Conda & Pip package management systems.
+
+For Pip, simply install via:
+
 ```
-$ conda env create -f requirements.yml
-```
-This should set up the conda environment with all prerequisites for running this code from the desired [project](https://github.com/best-of-acrv). 
-Activate this Conda environment using the following command:
-```
-$ conda activate acrv-datasets
+u@pc:~$ pip install acrv-datasets
 ```
 
-## Downloading Data ##
-To download and prepare dataset, run the ``get_datasets.py``. This will download and setup all the corresponding data 
-directories required for the models. The data directory should appear in the following structure:
-```
-root_dir
-|--- datasets
-|   |-- coco
-|   |-- glove
-|   |-- nyu
-|   |-- pascal_voc
-|   |-- sbd
-|   |-- trainval36
-```
-To select datasets to download, use the ``--datasets`` argument. The supported datasets so far are:
-* [NYUv2](https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html)
-* [Pascal VOC](http://host.robots.ox.ac.uk/pascal/VOC/)
-* [SBD](http://home.bharathh.info/pubs/codes/SBD/download.html)
-* [COCO](https://cocodataset.org/)
-* [GloVe](https://nlp.stanford.edu/projects/glove/)
+Installation via Conda is the same once you have [Conda installed](https://conda.io/projects/conda/en/latest/user-guide/install/index.html) on your system, and are inside a [Conda environment](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html). From there, simply run:
 
-For example, to download the NYU and VOC datasets, run the following command from the root directory:
 ```
-$ python get_datasets.py --datasets nyu voc
+u@pc:~$ conda install acrv-datasets
 ```
 
-## Adding Datasets ##
-To add your own datasets, please refer to the ``datasets_url.py``. A new dataset dictionary and ``elif`` should be added 
-according to the provided example.
+You can see a list of the package's Python dependencies in the [`./requirements.yml`](./requirements.yml) file.
+
+TODO make sure requirements location is actually correct ^
+
+### From source
+
+Installing from source is very similar to the `pip` method above due to the package only containing Python code. Simply clone the repository, enter the directory, and install via `pip` in editable mode:
+
+```
+u@pc:~$ pip install -e .
+```
+
+Editable mode allows you to immediately use any changes you make to RefineNet's code in your local Python ecosystem.
+
+TODO: add instructions for from source method that doesn't use pip (i.e. just running scripts)
+
+## Downloading & accessing datasets
+
+TODO add some words....
+
+Accessing datasets from your code. For example, get location of NYU dataset:
+
+```python
+import acrv_datasets as ad
+
+nyu_location = ad.get_datasets(['nyu'])
+```
+
+When calling `get_datasets()`, the dataset will be downloaded and extracted if it doesn't already exist. For example the exact same call above works if you don't already have the `'nyu'` dataset, it will just block and report progress while it gathers the dataset.
+
+Datasets are stored in a default directory, which can be configured via the following code:
+
+```python
+import acrv_datasets as ad
+
+ad.set_datasets_directory('/mnt/hdd/acrv_datasets')
+```
+
+From this point on, all dataset operations would be performed in the `/mnt/hdd/acrv_datasets` directory. If no location has been set, a default will be used which is printed in yellow before all operations. You can also explicitly override the dataset directory for single operations:
+
+```python
+import acrv_datasets as ad
+
+ad.get_datasets(['nyu'], 'mnt/hdd2/other_location')
+```
+
+You can see a live list of supported datasets, and access a dictionary containing each dataset's details, with the following code:
+
+```python
+import acrv_datasets as ad
+
+details = ad.supported_datasets()
+```
+
+TODO information about `'datasets.yaml'` file
+
+TODO information about running this via `python3 -m acrv_datasets ...`
+
+TODO maybe via a script as well? Probably not necessary...
+
+## Adding your own datasets
+
+TODO proper information (in short, just edit the `'datasets.yaml'` file)
+
+## Dataset references
+
+TODO proper list of datasets & how to cite them
+
+- [NYUv2](https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html)
+- [Pascal VOC](http://host.robots.ox.ac.uk/pascal/VOC/)
+- [SBD](http://home.bharathh.info/pubs/codes/SBD/download.html)
+- [COCO](https://cocodataset.org/)
+- [GloVe](https://nlp.stanford.edu/projects/glove/)
