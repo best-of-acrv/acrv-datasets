@@ -22,6 +22,8 @@ def get_datasets(dataset_names, datasets_directory=None):
         print("%sERROR: no datasets provided to download%s" %
               (colorama.Fore.RED, colorama.Style.RESET_ALL))
         return _exit()
+    if type(dataset_names) == str:
+        dataset_names = [dataset_names]
     unsupported_datasets = [
         d for d in dataset_names if d not in _dataset_identifiers()
     ]
@@ -45,7 +47,8 @@ def get_datasets(dataset_names, datasets_directory=None):
                          datasets_directory,
                          skip_map={k: not v
                                    for k, v in results.items()})
-    return [_dataset_path(datasets_directory, d) for d in dataset_names]
+    ps = [_dataset_path(datasets_directory, d) for d in dataset_names]
+    return ps if len(ps) > 1 else ps[0]
 
 
 def get_datasets_directory(requested_directory=None):
