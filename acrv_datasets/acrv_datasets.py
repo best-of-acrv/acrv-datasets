@@ -52,10 +52,11 @@ def get_datasets_directory(requested_directory=None):
     if requested_directory is not None:
         return requested_directory
     else:
-        with open(
-                pkg_resources.resource_filename(
-                    __name__, DATASETS_DIRECTORY_RESOURCE)) as f:
-            return f.readline()
+        fn = pkg_resources.resource_filename(__name__,
+                                             DATASETS_DIRECTORY_RESOURCE)
+        if os.path.exists(fn):
+            with open(fn, 'r') as f:
+                return f.readline()
         print("%sWARNING: no output directory provided, and no default set. "
               "Downloading to the default instead:\n\t%s%s" %
               (colorama.Fore.YELLOW, DEFAULT_DATASETS_DIRECTORY,
