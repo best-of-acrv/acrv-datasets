@@ -15,7 +15,7 @@ DATASETS_DIRECTORY_RESOURCE = '.acrv_datasets_directory'
 DEFAULT_DATASETS_DIRECTORY = os.path.expanduser('~/.acrv_datasets')
 
 
-def get_datasets(datasets, datasets_directory):
+def get_datasets(datasets, datasets_directory=None):
     # Perform argument validation
     colorama.init()
     if not datasets:
@@ -39,9 +39,12 @@ def get_datasets(datasets, datasets_directory):
     # Download and prepare each of the datasets
     for d in datasets:
         _print_block('Downloading %s dataset/s' % d)
-        _download_dataset(d, datasets_directory)
+        results = _download_dataset(d, datasets_directory)
         _print_block('Preparing %s dataset/s' % d)
-        _prepare_dataset(d, datasets_directory)
+        _prepare_dataset(d,
+                         datasets_directory,
+                         skip_map={k: not v
+                                   for k, v in results.items()})
     return True
 
 
@@ -111,15 +114,17 @@ def _download_dataset(dataset, datasets_directory):
     }
 
     # Download files
+    resps = {}
     for k, d in downloaders.items():
         if os.path.exists(d.download_path):
-            print('Found existing file at: ' + d.download_path + '!')
-            d.resume()
+            print('Found existing file at: ' + d.download_path)
+            resps[k] = d.resume()
         else:
             print('Could not find existing file at: ' + k +
                   '. Starting new download...')
             os.makedirs(os.path.dirname(d.download_path), exist_ok=True)
-            d.download()
+            resps[k] = d.download()
+    return resps
 
 
 def _exit():
@@ -140,7 +145,7 @@ def _is_group(dataset_identifier):
     return dataset_identifier.endswith('/') or '/' not in dataset_identifier
 
 
-def _prepare_dataset(dataset, datasets_directory):
+def _prepare_dataset(dataset, datasets_directory, skip_map=None):
     # Create a map of expanded identifiers to destinations
     datasets = {
         d: _dataset_path(datasets_directory, d)
@@ -149,6 +154,9 @@ def _prepare_dataset(dataset, datasets_directory):
 
     # Extract the contents of each archive to the target destination
     for k, v in datasets.items():
+        if skip_map is not None and skip_map.get(k, None):
+            print("Skipping already prepared dataset '%s'" % k)
+            continue
         source = glob.glob('%s.*' % v)
         if len(source) != 1:
             raise RuntimeError(

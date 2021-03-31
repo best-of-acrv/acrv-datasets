@@ -173,6 +173,7 @@ class Download:
         urllib2_obj = urllib.request.urlopen(req, timeout=self.timeout)
         print('Partial file: resuming download...')
         self.__download_file(urllib2_obj, f, call_back=call_back)
+        return True
 
     def __start_ftp_resume(self, restart=None):
         # starts to resume FTP
@@ -200,6 +201,7 @@ class Download:
         ftper.sendcmd("REST " + str(cur_size))
         down_cmd = "RETR " + file_name
         ftper.retrbinary(down_cmd, f.write)
+        return True
 
     def enable_rate_limit(self, rate_burst=9000, rate_limit=1000):
         if rate_burst < 8192:
@@ -228,7 +230,7 @@ class Download:
     def get_type(self):
         # returns protocol of url (ftp or http)
         url_type = urllib.parse.urlparse(self.url).scheme
-        return url_type
+        return 'http' if url_type == 'https' else url_type
 
     def check_exists(self):
         # Checks to see if the file in the url in self.url exists
@@ -265,12 +267,12 @@ class Download:
             return True
 
     def resume(self, call_back=None):
-        # attempts to resume file download
+        # attempts to resume file download, returns false if nothing done
         url_type = self.get_type()
         if url_type == 'http':
-            self.__start_http_resume(call_back=call_back)
+            return self.__start_http_resume(call_back=call_back)
         elif url_type == 'ftp':
-            self.__start_ftp_resume()
+            return self.__start_ftp_resume()
 
     def partial_download(self, start_pos, end_pos, call_back=None):
         # downloads a piece of a file, only supports HTTP
