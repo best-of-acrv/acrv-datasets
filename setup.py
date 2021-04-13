@@ -14,6 +14,7 @@ setup(name='acrv_datasets',
       package_data={'acrv_datasets': ['*.yaml']},
       install_requires=['colorama', 'pyyaml', 'requests', 'tqdm'],
       classifiers=(
+          "Development Status :: 4 - Beta",
           "Programming Language :: Python :: 3",
           "License :: OSI Approved :: BSD License",
           "Operating System :: OS Independent",
