@@ -45,8 +45,7 @@ def get_datasets(dataset_names, datasets_directory=None):
         _print_block('Preparing %s dataset/s' % d)
         _prepare_dataset(d,
                          datasets_directory,
-                         skip_map={k: not v
-                                   for k, v in results.items()})
+                         skip_map={k: not v for k, v in results.items()})
     ps = [_dataset_path(datasets_directory, d) for d in dataset_names]
     return ps if len(ps) > 1 else ps[0]
 
@@ -72,11 +71,10 @@ def set_datasets_directory(datasets_directory):
     if pkg_resources.resource_exists(__name__, DATASETS_DIRECTORY_RESOURCE):
         with open(fn, 'r') as f:
             old = f.readline()
-            print("Existing default datasets directory found:\n\t%s\n"
-                  "which has now been replaced with:\n\t%s" %
-                  (old, datasets_directory))
+            print("Existing default datasets directory found:\n\t%s" % old)
     with open(fn, 'w') as f:
         f.write(datasets_directory)
+    print("New default datasets directory set:\n\t%s" % datasets_directory)
 
 
 def supported_datasets():
@@ -195,8 +193,7 @@ def _process_yaml(filename):
                 _dataset_identifier(k, kk): {
                     'url': vv,
                     'group': k
-                }
-                for kk, vv in v.items()
+                } for kk, vv in v.items()
             })
         else:
             ret[_dataset_identifier(k)] = {'url': v}
