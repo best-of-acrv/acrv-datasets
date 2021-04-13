@@ -1,8 +1,12 @@
+<p align=center><strong>~Please note this is only a <em>beta</em> release at this stage~</strong></p>
+
 # ACRV Datasets: dataset integration for Best of ACRV projects
 
-The ACRV Datasets package is a light wrapper for generically managing datasets. The package allows any dataset to be added, as long as it has a public URL. We emphasise that we do not own the datasets accessed through this package, we simply provide easy access and integration for projects like the [Best of ACRV codebases](https://roboticvision.org/best-of-acrv).
+_Note: support will be added soon for datasets that require end-users accept of licensing agreements_
 
-Datasets are defined in a YAML file, and there is full support for grouping sub-datasets together. For example, `'coco'` can be used to refer to 13 different COCO datasets with a single identifier. Once added, datasets can be downloaded and accessed from Python with simple function calls. You can also easily add your own datasets simply by editing the same datasets YAML file.
+The ACRV Datasets package is a light wrapper for generically managing datasets. The package supports any dataset, as long as it has a public URL. We emphasise that we do not own the datasets accessed through this package, we simply provide easy access and integration for projects like the [Best of ACRV codebases](https://roboticvision.org/best-of-acrv).
+
+Datasets are defined in a YAML file, and there is full support for grouping sub-datasets together. For example, `'coco'` can be used to refer to 13 different COCO datasets with a single identifier. You can also easily add your own datasets simply by editing the same datasets YAML file. Once added, datasets can be downloaded and accessed from Python with simple function calls.
 
 Our code is free to use, and licensed under BSD-3. If you use any datasets in your work, you must appropriately reference _the original dataset authors_! Please see [dataset references](#dataset-references) below.
 
@@ -29,27 +33,19 @@ Installation via Conda is the same once you have [Conda installed](https://conda
 u@pc:~$ conda install acrv-datasets
 ```
 
-You can see a list of the package's Python dependencies in the [`./requirements.yml`](./requirements.yml) file.
-
-TODO make sure requirements location is actually correct ^
-
 ### From source
 
-Installing from source is very similar to the `pip` method above due to the package only containing Python code. Simply clone the repository, enter the directory, and install via `pip` in editable mode:
+Installing from source is very similar to the `pip` method above due to the package only containing Python code. Simply clone the repository, enter the directory, and install via `pip`:
 
 ```
 u@pc:~$ pip install -e .
 ```
 
-Editable mode allows you to immediately use any changes you make to RefineNet's code in your local Python ecosystem.
-
-TODO: add instructions for from source method that doesn't use pip (i.e. just running scripts)
+_Note: the editable mode flag (`-e`) is optional, but allows you to immediately use any changes you make to the code in your local Python ecosystem._
 
 ## Downloading & accessing datasets
 
-TODO add some words....
-
-Accessing datasets from your code. For example, get location of NYU dataset:
+This package exposes a simple Python interface that automatically handles downloading, extracting, and accessing datasets. All of this complexity is hidden behind a single user action: getting datasets. For example to "get" the NYU dataset:
 
 ```python
 import acrv_datasets as ad
@@ -83,19 +79,60 @@ import acrv_datasets as ad
 details = ad.supported_datasets()
 ```
 
-TODO information about `'datasets.yaml'` file
+The module can also be accessed directly from the command line using the `python3 -m acrv_datasets ...` syntax. Equivalent commands for the above Python are shown below:
 
-TODO information about running this via `python3 -m acrv_datasets ...`
+```
+u@pc:~$ python3 -m acrv_datasets --datasets nyu
+```
 
-TODO maybe via a script as well? Probably not necessary...
+```
+u@pc:~$ python3 -m acrv_datasets --set-default-datasets-directory /mnt/hdd/acrv_datasets
+```
+
+```
+u@pc:~$ python3 -m acrv_datasets --datasets nyu --datasets-directory /mnt/hdd/acrv_datasets
+```
+
+```
+u@pc:~$ python3 -m acrv_datasets --supported-datasets
+```
+
+There is also a help flag which documents the supported syntax:
+
+```
+u@pc:~$ python3 -m acrv_datasets --help
+```
 
 ## Adding your own datasets
 
-TODO proper information (in short, just edit the `'datasets.yaml'` file)
+New datasets can be added by making additions to the [`'datasets.yaml'`](https://github.com/raw/master/acrv_datasets/datasets.yaml) file. All that is needed is a unique dataset identifier, and a public URL.
+
+A detailed description of the syntax for adding new datasets is provided at the top of the file:
+
+> Datasets are listed in named groups. The group name is the top level key, the
+> dataset name is the second level key, and the public URL is the second level
+> value. The group name & dataset name combine to form a unique dataset
+> identifier.
+>
+> For example, the following would specify a 2014 & 2021 version of my dataset
+> called 'my_dataset' (with the unique identifiers 'my_dataset/2014' &
+> 'my_dataset/2021' respectively):
+>
+> my_dataset:
+> 2014: https://my_dataset.hosting/2014.tgz
+> 2021: https://my_dataset.hosting/2021.tgz
+>
+> For brevity the dataset name can be omitted if there is only 1 dataset in a
+> group. For example, the following gives a dataset with the identifier
+> 'my_simple_dataset':
+>
+> my_simple_dataset: https://my_dataset.hosting/simply.tgz
 
 ## Dataset references
 
-TODO proper list of datasets & how to cite them
+We again emphasise that you are required to meet all of the licensing terms of the specific dataset if you wish to use the dataset in your own work (we merely provide simplified access).
+
+Below is a list of all datasets currently included, with links to their main site. Please follow their citation instructions if using them in your research:
 
 - [NYUv2](https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html)
 - [Pascal VOC](http://host.robots.ox.ac.uk/pascal/VOC/)
