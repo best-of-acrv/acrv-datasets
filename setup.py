@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(name='acrv_datasets',
-      version='0.9.0',
+      version='0.9.1',
       author='Ben Talbot',
       author_email='b.talbot@qut.edu.au',
       description='Datasets manager for the Best of ACRV',
