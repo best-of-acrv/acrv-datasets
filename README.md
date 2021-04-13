@@ -109,24 +109,28 @@ New datasets can be added by making additions to the [`'datasets.yaml'`](https:/
 
 A detailed description of the syntax for adding new datasets is provided at the top of the file:
 
-> Datasets are listed in named groups. The group name is the top level key, the
-> dataset name is the second level key, and the public URL is the second level
-> value. The group name & dataset name combine to form a unique dataset
-> identifier.
->
-> For example, the following would specify a 2014 & 2021 version of my dataset
-> called 'my_dataset' (with the unique identifiers 'my_dataset/2014' &
-> 'my_dataset/2021' respectively):
->
-> my_dataset:
-> 2014: https://my_dataset.hosting/2014.tgz
-> 2021: https://my_dataset.hosting/2021.tgz
->
-> For brevity the dataset name can be omitted if there is only 1 dataset in a
-> group. For example, the following gives a dataset with the identifier
-> 'my_simple_dataset':
->
-> my_simple_dataset: https://my_dataset.hosting/simply.tgz
+Datasets are listed in named groups. The group name is the top level key, the
+dataset name is the second level key, and the public URL is the second level
+value. The group name & dataset name combine to form a unique dataset
+identifier.
+
+For example, the following would specify a 2014 & 2021 version of my dataset
+called 'my_dataset' (with the unique identifiers 'my_dataset/2014' &
+'my_dataset/2021' respectively):
+
+```yaml
+my_dataset:
+  2014: https://my_dataset.hosting/2014.tgz
+  2021: https://my_dataset.hosting/2021.tgz
+```
+
+For brevity the dataset name can be omitted if there is only 1 dataset in a
+group. For example, the following gives a dataset with the identifier
+'my_simple_dataset':
+
+```yaml
+my_simple_dataset: https://my_dataset.hosting/simply.tgz
+```
 
 ## Dataset references
 
