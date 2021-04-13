@@ -2,6 +2,8 @@
 
 # ACRV Datasets: dataset integration for Best of ACRV projects
 
+[![Best of ACRV Repository](https://github.com/best-of-acrv/best-of-acrv-website/raw/master/misc/badge.svg)](https://roboticvision.org/best-of-acrv)
+
 _Note: support will be added soon for datasets that require end-users accept of licensing agreements_
 
 The ACRV Datasets package is a light wrapper for generically managing datasets. The package supports any dataset, as long as it has a public URL. We emphasise that we do not own the datasets accessed through this package, we simply provide easy access and integration for projects like the [Best of ACRV codebases](https://roboticvision.org/best-of-acrv).
