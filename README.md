@@ -136,10 +136,11 @@ my_simple_dataset: https://my_dataset.hosting/simply.tgz
 
 We again emphasise that you are required to meet all of the licensing terms of the specific dataset if you wish to use the dataset in your own work (we merely provide simplified access).
 
-Below is a list of all datasets currently included, with links to their main site. Please follow their citation instructions if using them in your research:
+Below is a list of all datasets identifiers currently available grouped by their owner, with a link provided. Please follow the owner's citation instructions if using their datasets in your research:
 
-- [NYUv2](https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html)
-- [Pascal VOC](http://host.robots.ox.ac.uk/pascal/VOC/)
-- [SBD](http://home.bharathh.info/pubs/codes/SBD/download.html)
-- [COCO](https://cocodataset.org/)
-- [GloVe](https://nlp.stanford.edu/projects/glove/)
+- [NYUv2](https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html): `nyu`
+- [Pascal VOC](http://host.robots.ox.ac.uk/pascal/VOC/): `voc`
+- [SBD](http://home.bharathh.info/pubs/codes/SBD/download.html): `sbd`
+- [COCO](https://cocodataset.org/): `coco`, `coco/train2014`, `coco/val2014`, `coco/train2014`, `coco/val2014`, `coco/annotations_trainval2014`, `coco/test2015`, `coco/train2017`, `coco/val2017`, `coco/annotations_trainval2017`, `coco/captions`, `coco/vqa_questions_train`, `coco/vqa_questions_val`, `coco/vqa_questions_test`, `coco/vqa_annotations_train`, `coco/vqa_annotations_val`
+- [GloVe](https://nlp.stanford.edu/projects/glove/): `glove`
+- TODO???: `trainval36`
