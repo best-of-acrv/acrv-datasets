@@ -2,7 +2,7 @@
 
 # ACRV Datasets: dataset integration for Best of ACRV projects
 
-[![Best of ACRV Repository](https://github.com/best-of-acrv/best-of-acrv-website/raw/master/misc/badge.svg)](https://roboticvision.org/best-of-acrv)
+[![Best of ACRV Repository](https://img.shields.io/badge/collection-best--of--acrv-%23a31b2a)](https://roboticvision.org/best-of-acrv)
 
 _Note: support will be added soon for datasets that require end-users accept of licensing agreements_
 
