@@ -30,6 +30,8 @@ sbd: "http://www.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/semantic
 coco:
   train2014: "http://images.cocodataset.org/zips/train2014.zip"
   val2014: "http://images.cocodataset.org/zips/val2014.zip"
+  minival2014: "https://dl.dropboxusercontent.com/s/o43o90bna78omob/instances_minival2014.json.zip?dl=0"
+  valminusminival2014: "https://dl.dropboxusercontent.com/s/s3tw5zcg7395368/instances_valminusminival2014.json.zip?dl=0"
   annotations_trainval2014: "http://images.cocodataset.org/annotations/annotations_trainval2014.zip"
   test2015: "http://images.cocodataset.org/zips/test2015.zip"
   train2017: "http://images.cocodataset.org/zips/train2017.zip"
