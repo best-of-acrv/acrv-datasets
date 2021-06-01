@@ -157,7 +157,8 @@ def _prepare_dataset(dataset, datasets_directory, skip_map=None):
 
     # Extract the contents of each archive to the target destination
     for k, v in datasets.items():
-        if skip_map is not None and skip_map.get(k, None):
+        if (skip_map is not None and
+                skip_map.get(k, None)) or os.path.exists(v):
             print("Skipping already prepared dataset '%s'" % k)
             continue
         source = glob.glob('%s.*' % v)

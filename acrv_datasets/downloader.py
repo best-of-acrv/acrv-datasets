@@ -37,6 +37,7 @@ class Download:
              downloader = fileDownloader.DownloadFile('http://example.com/file.zip')
             downloader.resume()
     """
+
     def __init__(self,
                  url=None,
                  download_path=None,
@@ -159,7 +160,7 @@ class Download:
         cur_size = self.get_local_file_size()
         if cur_size >= self.url_file_size:
             print('File already downloaded!')
-            return False
+            return True
         self.cur = cur_size
         if restart:
             f = open(self.download_path, "wb")
@@ -180,7 +181,7 @@ class Download:
         cur_size = self.get_local_file_size()
         if cur_size >= self.url_file_size:
             print('File already downloaded!')
-            return False
+            return True
         if restart:
             f = open(self.download_path, "wb")
         else:
@@ -283,11 +284,13 @@ class Download:
 
 
 class DownloadError(Exception):
+
     def __init__(self, message=''):
         self.message = message
 
 
 class TokenBucket:
+
     def __init__(self, bucket_size, fill_rate):
         # tokens is the total tokens in the rate_limit_bucket. fill_rate is the
         # rate in tokens/second that the rate_limit_bucket will be refilled.
@@ -315,5 +318,6 @@ class TokenBucket:
 
 
 class TokenBucketError(Exception):
+
     def __init__(self, message=''):
         self.message = message
