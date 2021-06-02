@@ -3,6 +3,12 @@
 # ACRV Datasets: dataset integration for Best of ACRV projects
 
 [![Best of ACRV Repository](https://img.shields.io/badge/collection-best--of--acrv-%23a31b2a)](https://roboticvision.org/best-of-acrv)
+![Primary language](https://img.shields.io/github/languages/top/best-of-acrv/acrv-datasets)
+[![PyPI package](https://img.shields.io/pypi/pyversions/acrv-datasets)](https://pypi.org/project/acrv-datasets/)
+[![Conda Version](https://img.shields.io/conda/vn/conda-forge/acrv_datasets.svg)](https://anaconda.org/conda-forge/acrv_datasets)
+[![Conda Recipe](https://img.shields.io/badge/recipe-acrv_datasets-green.svg)](https://anaconda.org/conda-forge/acrv_datasets)
+[![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/acrv_datasets.svg)](https://anaconda.org/conda-forge/acrv_datasets)
+[![License](https://img.shields.io/github/license/best-of-acrv/acrv-datasets)](./LICENSE.txt)
 
 _Note: support will be added soon for datasets that require end-users accept of licensing agreements_
 
@@ -26,13 +32,20 @@ The ACRV Datasets package has no system dependencies, so installation is the sam
 For Pip, simply install via:
 
 ```
-u@pc:~$ pip install acrv-datasets
+u@pc:~$ pip install acrv_datasets
 ```
 
-Installation via Conda is the same once you have [Conda installed](https://conda.io/projects/conda/en/latest/user-guide/install/index.html) on your system, and are inside a [Conda environment](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html). From there, simply run:
+Before installing via Conda, you need to make sure you have [Conda installed](https://conda.io/projects/conda/en/latest/user-guide/install/index.html) on your system, and the [Conda Forge](https://conda-forge.org/) channel has been added globally with strict priority:
 
 ```
-u@pc:~$ conda install acrv-datasets
+conda config --add channels conda-forge
+conda config --set channel_priority strict
+```
+
+Once you have access to the `conda-forge` channel, ACRV datasets is installed by running the following from inside a [Conda environment](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html). From there, simply run:
+
+```
+u@pc:~$ conda install acrv_datasets
 ```
 
 ### From source
