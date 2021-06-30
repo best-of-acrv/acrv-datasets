@@ -42,6 +42,8 @@ def get_datasets(dataset_names, datasets_directory=None):
     for d in dataset_names:
         _print_block('Downloading %s dataset/s' % d)
         results = _download_dataset(d, datasets_directory)
+        if results is False:
+            return []
         _print_block('Preparing %s dataset/s' % d)
         _prepare_dataset(d,
                          datasets_directory,
@@ -102,8 +104,10 @@ def _dataset_identifiers(groups=None):
     return ret
 
 
-def _dataset_path(datasets_directory, dataset_identifier):
-    return os.path.join(datasets_directory, dataset_identifier)
+def _dataset_path(datasets_directory, dataset_identifier, ext=None):
+    return os.path.join(
+        datasets_directory,
+        dataset_identifier + ('' if ext is None else '.%s' % ext))
 
 
 def _download_dataset(dataset, datasets_directory):
@@ -114,18 +118,27 @@ def _download_dataset(dataset, datasets_directory):
     downloaders = {
         k: Download(v['url'], _dataset_path(datasets_directory, k))
         for k, v in datasets.items()
+        if v.get('manual') is not True
     }
 
     # Download files
     resps = {}
-    for k, d in downloaders.items():
-        if os.path.exists(d.download_path):
-            print('Found existing file at: ' + d.download_path)
+    for k, v in datasets.items():
+        d = downloaders.get(k)
+        dlPath = (_dataset_path(datasets_directory, k, ext=v.get('ext', 'zip'))
+                  if d is None else str(d.download_path))
+        if os.path.exists(dlPath):
+            print('Found existing file at: ' + dlPath)
             resps[k] = d.resume()
+        elif v.get('manual') is True:
+            print('Dataset requires manual downloading. Please download from:'
+                  '\n\t%s\nand save to the location:\n\t%s' %
+                  (v['url'], dlPath))
+            return False
         else:
             print('Could not find existing file at: ' + k +
                   '. Starting new download...')
-            os.makedirs(os.path.dirname(d.download_path), exist_ok=True)
+            os.makedirs(os.path.dirname(dlPath), exist_ok=True)
             resps[k] = d.download()
     return resps
 

@@ -64,9 +64,11 @@ kitti_odometry:
   gray:
     url: "http://www.cvlibs.net/download.php?file=data_odometry_gray.zip"
     manual: True
+    ext: "zip"
   color:
     url: "http://www.cvlibs.net/download.php?file=data_odometry_color.zip"
     manual: True
+    ext: "zip"
 nyu:
   url: "https://cloudstor.aarnet.edu.au/plus/s/XkNRzW15f5TCDKr/download"
 sbd:
