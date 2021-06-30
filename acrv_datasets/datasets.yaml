@@ -5,43 +5,73 @@
 # Please see the README.md for full citations and links to the dataset sources.
 #
 # Datasets are listed in named groups. The group name is the top level key, the
-# dataset name is the second level key, and the public URL is the second level
-# value. The group name & dataset name combine to form a unique dataset
-# identifier.
+# dataset name is the second level key, and the public URL is a required third
+# level key value pair. The group name & dataset name combine to form a unique
+# dataset identifier.
 #
 # For example, the following would specify a 2014 & 2021 version of my dataset
 # called 'my_dataset' (with the unique identifiers 'my_dataset/2014' &
 # 'my_dataset/2021' respectively):
 #
 # my_dataset:
-#   2014: https://my_dataset.hosting/2014.tgz
-#   2021: https://my_dataset.hosting/2021.tgz
+#   2014:
+#     url: https://my_dataset.hosting/2014.tgz
+#   2021:
+#     url: https://my_dataset.hosting/2021.tgz
 #
 # For brevity the dataset name can be omitted if there is only 1 dataset in a
 # group. For example, the following gives a dataset with the identifier
 # 'my_simple_dataset':
 #
-# my_simple_dataset: https://my_dataset.hosting/simply.tgz
+# my_simple_dataset:
+#   url: https://my_dataset.hosting/simply.tgz
 #
 
-nyu: "https://cloudstor.aarnet.edu.au/plus/s/XkNRzW15f5TCDKr/download"
-voc: "http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar"
-sbd: "http://www.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/semantic_contours/benchmark.tgz"
 coco:
-  train2014: "http://images.cocodataset.org/zips/train2014.zip"
-  val2014: "http://images.cocodataset.org/zips/val2014.zip"
-  minival2014: "https://dl.dropboxusercontent.com/s/o43o90bna78omob/instances_minival2014.json.zip?dl=0"
-  valminusminival2014: "https://dl.dropboxusercontent.com/s/s3tw5zcg7395368/instances_valminusminival2014.json.zip?dl=0"
-  annotations_trainval2014: "http://images.cocodataset.org/annotations/annotations_trainval2014.zip"
-  test2015: "http://images.cocodataset.org/zips/test2015.zip"
-  train2017: "http://images.cocodataset.org/zips/train2017.zip"
-  val2017: "http://images.cocodataset.org/zips/val2017.zip"
-  annotations_trainval2017: "http://images.cocodataset.org/annotations/annotations_trainval2017.zip"
-  captions: "https://cloudstor.aarnet.edu.au/plus/s/4rQwvU3VuTd5U7d/download"
-  vqa_questions_train: "https://s3.amazonaws.com/cvmlp/vqa/mscoco/vqa/v2_Questions_Train_mscoco.zip"
-  vqa_questions_val: "https://s3.amazonaws.com/cvmlp/vqa/mscoco/vqa/v2_Questions_Val_mscoco.zip"
-  vqa_questions_test: "https://s3.amazonaws.com/cvmlp/vqa/mscoco/vqa/v2_Questions_Test_mscoco.zip"
-  vqa_annotations_train: "https://s3.amazonaws.com/cvmlp/vqa/mscoco/vqa/v2_Annotations_Train_mscoco.zip"
-  vqa_annotations_val: "https://s3.amazonaws.com/cvmlp/vqa/mscoco/vqa/v2_Annotations_Val_mscoco.zip"
-glove: "http://nlp.stanford.edu/data/glove.6B.zip"
-trainval36: "https://cloudstor.aarnet.edu.au/plus/s/bE4nMgkvejbbJMl/download"
+  train2014:
+    url: "http://images.cocodataset.org/zips/train2014.zip"
+  val2014:
+    url: "http://images.cocodataset.org/zips/val2014.zip"
+  minival2014:
+    url: "https://dl.dropboxusercontent.com/s/o43o90bna78omob/instances_minival2014.json.zip?dl=0"
+  valminusminival2014:
+    url: "https://dl.dropboxusercontent.com/s/s3tw5zcg7395368/instances_valminusminival2014.json.zip?dl=0"
+  annotations_trainval2014:
+    url: "http://images.cocodataset.org/annotations/annotations_trainval2014.zip"
+  test2015:
+    url: "http://images.cocodataset.org/zips/test2015.zip"
+  train2017:
+    url: "http://images.cocodataset.org/zips/train2017.zip"
+  val2017:
+    url: "http://images.cocodataset.org/zips/val2017.zip"
+  annotations_trainval2017:
+    url: "http://images.cocodataset.org/annotations/annotations_trainval2017.zip"
+  captions:
+    url: "https://cloudstor.aarnet.edu.au/plus/s/4rQwvU3VuTd5U7d/download"
+  vqa_questions_train:
+    url: "https://s3.amazonaws.com/cvmlp/vqa/mscoco/vqa/v2_Questions_Train_mscoco.zip"
+  vqa_questions_val:
+    url: "https://s3.amazonaws.com/cvmlp/vqa/mscoco/vqa/v2_Questions_Val_mscoco.zip"
+  vqa_questions_test:
+    url: "https://s3.amazonaws.com/cvmlp/vqa/mscoco/vqa/v2_Questions_Test_mscoco.zip"
+  vqa_annotations_train:
+    url: "https://s3.amazonaws.com/cvmlp/vqa/mscoco/vqa/v2_Annotations_Train_mscoco.zip"
+  vqa_annotations_val:
+    url: "https://s3.amazonaws.com/cvmlp/vqa/mscoco/vqa/v2_Annotations_Val_mscoco.zip"
+glove:
+  url: "http://nlp.stanford.edu/data/glove.6B.zip"
+kitti_odometry:
+  gray:
+    url: "http://www.cvlibs.net/download.php?file=data_odometry_gray.zip"
+    manual: True
+  color:
+    url: "http://www.cvlibs.net/download.php?file=data_odometry_color.zip"
+    manual: True
+nyu:
+  url: "https://cloudstor.aarnet.edu.au/plus/s/XkNRzW15f5TCDKr/download"
+sbd:
+  url: "http://www.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/semantic_contours/benchmark.tgz"
+trainval36:
+  url: "https://cloudstor.aarnet.edu.au/plus/s/bE4nMgkvejbbJMl/download"
+voc:
+  url: "http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar"
