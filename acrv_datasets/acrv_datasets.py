@@ -189,15 +189,22 @@ def _process_yaml(filename):
 
     ret = {}
     for k, v in data.items():
-        if type(v) is dict:
-            ret.update({
-                _dataset_identifier(k, kk): {
-                    'url': vv,
-                    'group': k
-                } for kk, vv in v.items()
-            })
-        else:
-            ret[_dataset_identifier(k)] = {'url': v}
+        new = ({
+            _dataset_identifier(k): v
+        } if 'url' in v else {
+            _dataset_identifier(k, kk): {
+                'group': k,
+                **vv
+            } for kk, vv in v.items()
+        })
+
+        for kk, vv in new.items():
+            if 'url' not in vv:
+                raise ValueError('Dataset '
+                                 '%s'
+                                 ' does not have a URL field!' % kk)
+
+        ret.update(new)
     return ret
 
 
