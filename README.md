@@ -94,28 +94,28 @@ import acrv_datasets as ad
 details = ad.supported_datasets()
 ```
 
-The module can also be accessed directly from the command line using the `python3 -m acrv_datasets ...` syntax. Equivalent commands for the above Python are shown below:
+The Python package also installs an entry point, making the module accessible directly through the command line using `acrv_datasets ...`. Equivalent commands for the above Python are shown below:
 
 ```
-u@pc:~$ python3 -m acrv_datasets --datasets nyu
-```
-
-```
-u@pc:~$ python3 -m acrv_datasets --set-default-datasets-directory /mnt/hdd/acrv_datasets
+acrv_datasets --datasets nyu
 ```
 
 ```
-u@pc:~$ python3 -m acrv_datasets --datasets nyu --datasets-directory /mnt/hdd/acrv_datasets
+acrv_datasets --set-default-datasets-directory /mnt/hdd/acrv_datasets
 ```
 
 ```
-u@pc:~$ python3 -m acrv_datasets --supported-datasets
+acrv_datasets --datasets nyu --datasets-directory /mnt/hdd/acrv_datasets
+```
+
+```
+acrv_datasets --supported-datasets
 ```
 
 There is also a help flag which documents the supported syntax:
 
 ```
-u@pc:~$ python3 -m acrv_datasets --help
+acrv_datasets --help
 ```
 
 ## Adding your own datasets
