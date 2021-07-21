@@ -4,7 +4,8 @@ import sys
 
 import acrv_datasets as ad
 
-if __name__ == "__main__":
+
+def main():
     # Parse arguments
     p = argparse.ArgumentParser(
         description='ACRV wrappers for dataset management')
@@ -34,3 +35,7 @@ if __name__ == "__main__":
     # Defer the call to the 'get_datasets' function
     ad.get_datasets('' if args.datasets is None else args.datasets.split(','),
                     args.datasets_directory)
+
+
+if __name__ == '__main__':
+    main()
