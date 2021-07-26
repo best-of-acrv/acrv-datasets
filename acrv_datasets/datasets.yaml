@@ -27,6 +27,9 @@
 #   url: https://my_dataset.hosting/simply.tgz
 #
 
+caption_features:
+  trainval2014_36:
+    url: "https://cloudstor.aarnet.edu.au/plus/s/bE4nMgkvejbbJMl/download"
 coco:
   train2014:
     url: "http://images.cocodataset.org/zips/train2014.zip"
@@ -73,7 +76,5 @@ nyu:
   url: "https://cloudstor.aarnet.edu.au/plus/s/XkNRzW15f5TCDKr/download"
 sbd:
   url: "http://www.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/semantic_contours/benchmark.tgz"
-trainval36:
-  url: "https://cloudstor.aarnet.edu.au/plus/s/bE4nMgkvejbbJMl/download"
 voc:
   url: "http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar"

@@ -156,4 +156,4 @@ Below is a list of all datasets identifiers currently available grouped by their
 - [NYUv2](https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html): `nyu`
 - [Pascal VOC](http://host.robots.ox.ac.uk/pascal/VOC/): `voc`
 - [SBD](http://home.bharathh.info/pubs/codes/SBD/download.html): `sbd`
-- TODO???: `trainval36`
+- [Captioning features](https://github.com/peteanderson80/bottom-up-attention#pretrained-features): `caption_features/trainval2014_36`
