@@ -11,6 +11,8 @@ from time import time, sleep
 
 name = "file-downloader"
 
+EXT_MAPPINGS = {'gzip': 'tgz', 'tar': 'tar', 'x-tar': 'tar', 'zip': 'zip'}
+
 
 class Download:
     """This class is used for downloading files from the internet via http or ftp.
@@ -39,8 +41,8 @@ class Download:
     """
 
     def __init__(self,
-                 url=None,
-                 download_path=None,
+                 url,
+                 download_path,
                  auth=None,
                  timeout=120.0,
                  retries=5,
@@ -70,10 +72,11 @@ class Download:
             self.download_path = self.get_url_filename()
 
         # Pull the extension from the remote server, & adjust the download path
+        content_type = re.sub(r'.*\/([^; ]*).*', r'\g<1>',
+                              requests.head(self.url).headers['Content-Type'])
         self.download_path = os.path.splitext(
-            self.download_path)[0] + '.' + re.sub(
-                r'.*\/', '',
-                requests.head(self.url).headers['Content-Type'])
+            self.download_path)[0] + '.' + EXT_MAPPINGS.get(
+                content_type, 'zip')
 
     def __download_file(self, url_obj, file_obj, call_back=None):
         # starts the download loop
