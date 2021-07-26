@@ -48,8 +48,7 @@ def get_datasets(dataset_names, datasets_directory=None):
         _prepare_dataset(d,
                          datasets_directory,
                          skip_map={k: not v for k, v in results.items()})
-    ps = [_dataset_path(datasets_directory, d) for d in dataset_names]
-    return ps if len(ps) > 1 else ps[0]
+    return [_dataset_path(datasets_directory, d) for d in dataset_names]
 
 
 def get_datasets_directory(requested_directory=None):
@@ -142,7 +141,7 @@ def _download_dataset(dataset, datasets_directory):
 def _exit():
     # Exit tidily
     colorama.deinit()
-    return False
+    return []
 
 
 def _expand_identifier(dataset_identifier):
