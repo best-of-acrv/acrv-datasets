@@ -87,15 +87,11 @@ def supported_datasets():
     return DATASETS
 
 
-def _dataset_group(identifier):
-    return identifier.split('/')[0]
-
-
 def _dataset_identifier(group, name=None):
     return group if name is None else '%s/%s' % (group, name)
 
 
-def _dataset_identifiers(groups=None):
+def _dataset_identifiers():
     ret = []
     for k, v in DATASETS.items():
         if 'group' in v and v['group'] not in ret:
