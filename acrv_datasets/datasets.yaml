@@ -30,6 +30,15 @@
 caption_features:
   trainval2014_36:
     url: "https://cloudstor.aarnet.edu.au/plus/s/bE4nMgkvejbbJMl/download"
+classification_h5s:
+  awa1:
+    url: "https://cloudstor.aarnet.edu.au/plus/s/eHxAV8M9YQZ1HxW/download"
+  cub:
+    url: "https://cloudstor.aarnet.edu.au/plus/s/Lv2yLVx6VIM6RSf/download"
+  flo:
+    url: "https://cloudstor.aarnet.edu.au/plus/s/WgKWPmfGZ4my734/download"
+  sun:
+    url: "https://cloudstor.aarnet.edu.au/plus/s/qUfar04poHFZkEz/download"
 coco:
   train2014:
     url: "http://images.cocodataset.org/zips/train2014.zip"
